@@ -543,6 +543,26 @@ body:hover .spotlight {
     transform: translateX(5px);
 }
 
+/* Secondary button for Create Account */
+.lock-btn-secondary {
+    background: linear-gradient(135deg, var(--mint2) 0%, var(--sky2) 100%);
+    box-shadow: 0 8px 28px rgba(134, 239, 172, 0.3);
+    margin-top: 12px;
+}
+
+.lock-btn-secondary:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(134, 239, 172, 0.4);
+}
+
+.lock-btn-secondary:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.lock-btn-secondary .btn-arrow {
+    display: none; /* No arrow for secondary button */
+}
+
 @keyframes spin {
     from { transform: translateY(-50%) rotate(0deg); }
     to { transform: translateY(-50%) rotate(360deg); }
