@@ -1,0 +1,31 @@
+# Configuration files with secrets (create config.example.json instead)
+config.json
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Firebase
+.firebase/
+
+# Service account keys
+*-service-account.json
+*-ServiceAccount.json
+
+# Backup files
+*.bak

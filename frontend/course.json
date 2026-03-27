@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "title": "Data Analysis & ML Mastery",
+    "subtitle": "From Python Basics to Deep Learning",
+    "version": "1.0"
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Python Programming",
+      "subtitle": "Basics → OOP → File Handling",
+      "icon": "🐍",
+      "accent": "#c084fc",
+      "topics": [
+        {
+          "id": "m1t1", "title": "Python Fundamentals",
+          "subtopics": ["Variables & Data Types","Control Flow (if/for/while)","Functions & Scope","List Comprehensions","Lambda & Map/Filter"]
+        },
+        {
+          "id": "m1t2", "title": "Data Structures",
+          "subtopics": ["Lists, Tuples, Sets","Dictionaries & Nested Structures","Stacks & Queues","Collections Module (Counter, defaultdict, deque)"]
+        },
+        {
+          "id": "m1t3", "title": "Object-Oriented Programming",
+          "subtopics": ["Classes & Objects","Inheritance & Polymorphism","Dunder Methods","Decorators & Property","Modules & Packages"]
+        },
+        {
+          "id": "m1t4", "title": "File Handling & APIs",
+          "subtopics": ["Reading/Writing Files (csv, txt, json)","Exception Handling","Regular Expressions","Working with APIs (requests)","Virtual Environments & pip"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"Python Full Course — freeCodeCamp (4h30m)","url":"https://www.youtube.com/watch?v=rfscVS0vtbw"},
+        {"type":"video","label":"OOP Deep Dive","title":"OOP in Python — Corey Schafer","url":"https://www.youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeqVm"},
+        {"type":"docs","label":"Official Reference","title":"Python 3 Docs","url":"https://docs.python.org/3/"},
+        {"type":"practice","label":"Interactive","title":"Python.org Beginner's Guide","url":"https://wiki.python.org/moin/BeginnersGuide"},
+        {"type":"collab","label":"Colab Notebook","title":"Python Basics — Jupyter Notebook (Kaggle)","url":"https://www.kaggle.com/code/sixteenpython/machine-learning-with-iris-dataset"}
+      ],
+      "exercises": [
+        {"title":"HackerRank Python Domain","url":"https://www.hackerrank.com/domains/python","desc":"30 Days of Code + Python-specific tracks. Start with Easy → Medium. Target: complete all Easy + 50% Medium before Module 2."},
+        {"title":"Exercism Python Track","url":"https://exercism.org/tracks/python","desc":"85 exercises with mentored feedback. Especially good for clean code habits."},
+        {"title":"LeetCode Easy (Python)","url":"https://leetcode.com/problemset/?difficulty=EASY&page=1&topicSlugs=array","desc":"Solve 20 Easy array/string problems in Python for interview-level fluency."}
+      ]
+    },
+    {
+      "id": "m2",
+      "title": "NumPy",
+      "subtitle": "Numerical Computing · Beginner → Advanced",
+      "icon": "🔢",
+      "accent": "#67e8f9",
+      "topics": [
+        {
+          "id": "m2t1","title":"Array Fundamentals",
+          "subtopics": ["ndarray creation (zeros, ones, arange, linspace)","Shape, reshape, flatten","Data types & memory layout","Indexing & Slicing (1D, 2D, 3D)","Boolean Indexing & Fancy Indexing"]
+        },
+        {
+          "id": "m2t2","title":"Operations & Math",
+          "subtopics": ["Universal Functions (ufuncs)","Broadcasting Rules","Vectorization vs Loops","Linear Algebra (dot, matmul, linalg)","Statistical Functions (mean, std, percentile)"]
+        },
+        {
+          "id": "m2t3","title":"Advanced NumPy",
+          "subtopics": ["Structured Arrays","Memory Views & Strides","np.einsum","Random Module (distributions, seeds)","Performance Optimization tips"]
+        }
+      ],
+      "resources": [
+        {"type":"collab","label":"Full Tutorial Notebook","title":"NumPy Complete Tutorial — Nicolas Rougier (GitHub)","url":"https://github.com/rougier/numpy-tutorial"},
+        {"type":"collab","label":"Practice Notebook","title":"100 NumPy Exercises (Colab-ready)","url":"https://github.com/rougier/numpy-100"},
+        {"type":"video","label":"Primary Video","title":"NumPy Full Course — Keith Galli (2h)","url":"https://www.youtube.com/watch?v=GB9ByFAIAH4"},
+        {"type":"video","label":"Broadcasting Deep Dive","title":"NumPy Broadcasting Explained — sentdex","url":"https://www.youtube.com/watch?v=oL1DjH2aTBo"},
+        {"type":"docs","label":"Official Docs","title":"NumPy Official Documentation","url":"https://numpy.org/doc/stable/"},
+        {"type":"mcq","label":"MCQ Practice","title":"NumPy MCQs — Sanfoundry (300+ questions)","url":"https://www.sanfoundry.com/python-questions-answers-numpy/"},
+        {"type":"mcq","label":"Quiz","title":"NumPy Quiz — w3resource","url":"https://www.w3resource.com/python-exercises/numpy/index.php"}
+      ],
+      "exercises": [
+        {"title":"100 NumPy Exercises","url":"https://github.com/rougier/numpy-100","desc":"The definitive NumPy practice set. Start from Q1, don't skip. Aim to solve without hints first, then check."},
+        {"title":"HackerRank NumPy Section","url":"https://www.hackerrank.com/domains/python?filters%5Bsubdomains%5D%5B%5D=numpy","desc":"Official HackerRank NumPy challenges — well-structured and graded."}
+      ]
+    },
+    {
+      "id": "m3",
+      "title": "Pandas",
+      "subtitle": "Data Manipulation · Beginner → Advanced",
+      "icon": "🐼",
+      "accent": "#86efac",
+      "topics": [
+        {
+          "id": "m3t1","title":"Series & DataFrame Basics",
+          "subtopics": ["Creating Series & DataFrames","Reading CSV, Excel, JSON, SQL","Inspecting data (head, info, describe, dtypes)","Indexing (.loc, .iloc, chained indexing)","Filtering & Boolean Masking"]
+        },
+        {
+          "id": "m3t2","title":"Data Cleaning & Transformation",
+          "subtopics": ["Handling Missing Values (fillna, dropna, interpolate)","Duplicate Detection & Removal","String Operations (.str methods)","Apply, Map, Applymap","Type Casting & Conversions"]
+        },
+        {
+          "id": "m3t3","title":"Aggregation & Reshaping",
+          "subtopics": ["GroupBy mechanics (split-apply-combine)","Pivot Tables & Crosstabs","Merge, Join, Concat","Melt & Stack/Unstack","Window Functions (rolling, expanding, ewm)"]
+        },
+        {
+          "id": "m3t4","title":"Advanced Pandas",
+          "subtopics": ["MultiIndex & Hierarchical Data","Time Series with DatetimeIndex","Categorical Dtype optimization","Memory optimization (chunking, dtypes)","Pandas + SQL (read_sql, to_sql)"]
+        }
+      ],
+      "resources": [
+        {"type":"collab","label":"Full Tutorial Notebook","title":"Pandas Complete Tutorial — Kaggle Learn","url":"https://www.kaggle.com/learn/pandas"},
+        {"type":"collab","label":"Practice Notebook","title":"Pandas Exercises — guipsamora (GitHub)","url":"https://github.com/guipsamora/pandas_exercises"},
+        {"type":"video","label":"Primary Video","title":"Pandas Full Course — Keith Galli (3h40m)","url":"https://www.youtube.com/watch?v=vmEHCJofslg"},
+        {"type":"video","label":"Advanced Pandas","title":"Pandas Tips & Tricks — Corey Schafer","url":"https://www.youtube.com/playlist?list=PL-osiE80TeTsWmV9i9c58mdDCSskIFdDS"},
+        {"type":"docs","label":"Official Docs","title":"Pandas Documentation","url":"https://pandas.pydata.org/docs/"},
+        {"type":"mcq","label":"MCQ Practice","title":"Pandas MCQs — Sanfoundry (200+ questions)","url":"https://www.sanfoundry.com/python-questions-answers-pandas/"},
+        {"type":"mcq","label":"Quiz","title":"Pandas Quiz — w3resource (exercises with solutions)","url":"https://www.w3resource.com/python-exercises/pandas/index.php"}
+      ],
+      "exercises": [
+        {"title":"Pandas Exercises — GitHub","url":"https://github.com/guipsamora/pandas_exercises","desc":"Best real-world Pandas exercise set. Covers all topics. Each exercise uses a real dataset. Complete at least 5 datasets fully."},
+        {"title":"Kaggle Pandas Course","url":"https://www.kaggle.com/learn/pandas","desc":"6 micro-exercises with instant feedback. Great for hands-on reinforcement."},
+        {"title":"Real Dataset Challenge: Titanic","url":"https://www.kaggle.com/c/titanic/data","desc":"Load Titanic dataset, do full data cleaning + GroupBy analysis. Classic benchmark project."}
+      ]
+    },
+    {
+      "id": "m4",
+      "title": "Data Visualization",
+      "subtitle": "Matplotlib · Seaborn · Plotly",
+      "icon": "📊",
+      "accent": "#fda4af",
+      "topics": [
+        {
+          "id": "m4t1","title":"Matplotlib Foundations",
+          "subtopics": ["Figure & Axes architecture","Line, Bar, Scatter, Histogram","Subplots & GridSpec","Custom styles, colors, annotations","Saving figures (savefig, DPI, formats)"]
+        },
+        {
+          "id": "m4t2","title":"Seaborn — Statistical Plots",
+          "subtopics": ["Distribution plots (histplot, kdeplot, ecdfplot)","Categorical plots (boxplot, violinplot, swarmplot)","Relational plots (scatterplot, lineplot)","Matrix plots (heatmap, clustermap)","FacetGrid & PairGrid"]
+        },
+        {
+          "id": "m4t3","title":"Plotly — Interactive Visuals",
+          "subtopics": ["Plotly Express quickstart","Plotly Graph Objects (full control)","Interactive dashboards basics","Choropleth & Geo maps","Exporting interactive HTML charts"]
+        },
+        {
+          "id": "m4t4","title":"Visualization Best Practices",
+          "subtopics": ["Choosing the right chart type","Color theory for data viz","Accessibility (colorblind-safe palettes)","Storytelling with data","Publication-quality figures"]
+        }
+      ],
+      "resources": [
+        {"type":"collab","label":"Full Tutorial Notebook","title":"Data Visualization with Python — Jovian (Colab)","url":"https://jovian.com/aakashns/python-matplotlib-data-visualization"},
+        {"type":"collab","label":"Seaborn Practice","title":"Seaborn Tutorial — Kaggle Learn","url":"https://www.kaggle.com/learn/data-visualization"},
+        {"type":"video","label":"Primary Video","title":"Matplotlib Full Tutorial — Corey Schafer (Playlist)","url":"https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_"},
+        {"type":"video","label":"Seaborn Deep Dive","title":"Seaborn Complete Guide — freeCodeCamp","url":"https://www.youtube.com/watch?v=6GUZXDef2U0"},
+        {"type":"video","label":"Plotly","title":"Plotly Crash Course — Charming Data","url":"https://www.youtube.com/watch?v=GGL6U0k8WYA"},
+        {"type":"docs","label":"Gallery","title":"Seaborn Example Gallery","url":"https://seaborn.pydata.org/examples/index.html"},
+        {"type":"mcq","label":"Quiz","title":"Matplotlib MCQs — Sanfoundry","url":"https://www.sanfoundry.com/matplotlib-mcq/"}
+      ],
+      "exercises": [
+        {"title":"Kaggle Data Visualization Course","url":"https://www.kaggle.com/learn/data-visualization","desc":"Hands-on exercises using real datasets. Complete all 7 exercises including the final project."},
+        {"title":"Recreate 5 Charts from Scratch","url":"https://www.data-to-viz.com/","desc":"Pick 5 chart types from data-to-viz.com, find a dataset, and recreate each. Builds real fluency."}
+      ]
+    },
+    {
+      "id": "m5",
+      "title": "Exploratory Data Analysis",
+      "subtitle": "Full EDA Pipeline · Real Datasets",
+      "icon": "🔍",
+      "accent": "#fcd34d",
+      "topics": [
+        {
+          "id": "m5t1","title":"Understanding Your Data",
+          "subtopics": ["Data types & schema inspection","Missing value analysis & patterns","Outlier detection (IQR, Z-score, isolation forest)","Duplicate analysis","Class imbalance detection"]
+        },
+        {
+          "id": "m5t2","title":"Univariate & Bivariate Analysis",
+          "subtopics": ["Distribution analysis (skewness, kurtosis)","Categorical frequency analysis","Correlation matrices (Pearson, Spearman, Kendall)","Scatter plots & pair plots","Cross-tabulation analysis"]
+        },
+        {
+          "id": "m5t3","title":"Automated EDA Tools",
+          "subtopics": ["Pandas Profiling / ydata-profiling","SweetViz reports","D-Tale interactive EDA","Lux auto-visualization","AutoViz"]
+        },
+        {
+          "id": "m5t4","title":"EDA Projects",
+          "subtopics": ["Full EDA: Titanic dataset","Full EDA: Netflix dataset","Full EDA: COVID-19 dataset","Full EDA: custom dataset (user's choice)","Writing EDA reports & storytelling"]
+        }
+      ],
+      "resources": [
+        {"type":"collab","label":"EDA Notebook Template","title":"EDA Template — Kaggle (Ames Housing)","url":"https://www.kaggle.com/code/pmarcelino/comprehensive-data-exploration-with-python"},
+        {"type":"video","label":"EDA Full Guide","title":"Exploratory Data Analysis in Python — freeCodeCamp","url":"https://www.youtube.com/watch?v=xi0vhXFPegw"},
+        {"type":"docs","label":"Tool","title":"ydata-profiling (automated EDA)","url":"https://github.com/ydataai/ydata-profiling"},
+        {"type":"collab","label":"Practice Dataset","title":"Kaggle Datasets for EDA Practice","url":"https://www.kaggle.com/datasets?tags=13302-EDA"}
+      ],
+      "exercises": [
+        {"title":"Kaggle Titanic EDA","url":"https://www.kaggle.com/c/titanic","desc":"Full pipeline: load → inspect → clean → visualize → summarize findings. Write a markdown report."},
+        {"title":"Netflix Dataset EDA","url":"https://www.kaggle.com/datasets/shivamb/netflix-shows","desc":"Explore trends in content, genre distributions, country analysis. Build 10+ visualizations."},
+        {"title":"Custom Dataset EDA","url":"https://www.kaggle.com/datasets","desc":"Pick any dataset relevant to your interest. Complete EDA notebook + written summary."}
+      ]
+    },
+    {
+      "id": "m6",
+      "title": "APIs & Streamlit",
+      "subtitle": "REST APIs · Web Apps · Deployment",
+      "icon": "🚀",
+      "accent": "#c084fc",
+      "topics": [
+        {
+          "id": "m6t1","title":"Working with APIs",
+          "subtopics": ["HTTP methods (GET, POST, PUT, DELETE)","Requests library deep dive","Authentication (API keys, OAuth, JWT)","Parsing JSON responses","Rate limiting & pagination"]
+        },
+        {
+          "id": "m6t2","title":"Building with Flask (basics)",
+          "subtopics": ["Flask routing & templates","REST API endpoints","Request/Response objects","Error handling","Deploying Flask to Render/Railway"]
+        },
+        {
+          "id": "m6t3","title":"Streamlit — Data Apps",
+          "subtopics": ["Streamlit fundamentals (widgets, layout)","Displaying DataFrames & charts","Session state & interactivity","Connecting to data sources","Deploying to Streamlit Cloud (free)"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Streamlit Primary","title":"Streamlit Full Course — Patrick Loeber","url":"https://www.youtube.com/watch?v=VqgUkExPvLY"},
+        {"type":"video","label":"APIs in Python","title":"APIs for Beginners — freeCodeCamp","url":"https://www.youtube.com/watch?v=GZvSYJDk-us"},
+        {"type":"docs","label":"Official Docs","title":"Streamlit Documentation","url":"https://docs.streamlit.io/"},
+        {"type":"collab","label":"Gallery","title":"Streamlit App Gallery (inspiration)","url":"https://streamlit.io/gallery"}
+      ],
+      "exercises": [
+        {"title":"Build a Data Dashboard","url":"https://docs.streamlit.io/library/get-started","desc":"Build a Streamlit app that loads a CSV, shows EDA summary, and has interactive filters. Deploy to Streamlit Cloud."},
+        {"title":"Call a Public API","url":"https://github.com/public-apis/public-apis","desc":"Pick any public API (weather, movies, finance), fetch data, analyze it, and display in Streamlit."}
+      ]
+    },
+    {
+      "id": "m7",
+      "title": "SQL & Databases",
+      "subtitle": "PostgreSQL · MySQL · Advanced Queries",
+      "icon": "🗄️",
+      "accent": "#67e8f9",
+      "topics": [
+        {
+          "id": "m7t1","title":"SQL Fundamentals",
+          "subtopics": ["SELECT, WHERE, ORDER BY, LIMIT","Aggregate Functions (COUNT, SUM, AVG, MAX, MIN)","GROUP BY & HAVING","JOINs (INNER, LEFT, RIGHT, FULL, CROSS)","Subqueries & Nested Queries"]
+        },
+        {
+          "id": "m7t2","title":"Intermediate SQL",
+          "subtopics": ["Window Functions (ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD)","CTEs (Common Table Expressions)","Views & Materialized Views","Indexes & Query Optimization","EXPLAIN & Query Analysis"]
+        },
+        {
+          "id": "m7t3","title":"Advanced SQL & Python",
+          "subtopics": ["Stored Procedures & Triggers","Transactions (ACID properties)","PostgreSQL-specific features","SQLAlchemy ORM","Pandas + SQL (read_sql, to_sql)","Database design & normalization"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"SQL Full Course — freeCodeCamp (4h20m)","url":"https://www.youtube.com/watch?v=HXV3zeQKqGY"},
+        {"type":"video","label":"Advanced SQL","title":"Advanced SQL — Mode Analytics Tutorial","url":"https://mode.com/sql-tutorial/"},
+        {"type":"practice","label":"Interactive Practice","title":"SQLZoo — Beginner to Advanced Interactive","url":"https://sqlzoo.net/"},
+        {"type":"practice","label":"Real SQL Challenges","title":"LeetCode SQL Problems (Easy → Hard)","url":"https://leetcode.com/problemset/?topicSlugs=database"},
+        {"type":"docs","label":"PostgreSQL Docs","title":"PostgreSQL Official Documentation","url":"https://www.postgresql.org/docs/"},
+        {"type":"mcq","label":"MCQs","title":"SQL MCQ — Sanfoundry (500+ questions)","url":"https://www.sanfoundry.com/sql-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"LeetCode SQL Track","url":"https://leetcode.com/problemset/?topicSlugs=database","desc":"Complete all Easy SQL problems, then 50% Medium. These are the exact questions asked in data analyst interviews."},
+        {"title":"SQLZoo Full Track","url":"https://sqlzoo.net/","desc":"Interactive exercises using real databases. Complete SELECT basics through Self JOIN."},
+        {"title":"Mode Analytics SQL Tutorial","url":"https://mode.com/sql-tutorial/","desc":"Best advanced SQL resource. Covers Window Functions deeply with real datasets."}
+      ]
+    },
+    {
+      "id": "m8",
+      "title": "Power BI & Tableau",
+      "subtitle": "Business Intelligence · Dashboards",
+      "icon": "📈",
+      "accent": "#fda4af",
+      "topics": [
+        {
+          "id": "m8t1","title":"Power BI",
+          "subtopics": ["Power Query & data transformation","Data modeling & relationships","DAX fundamentals (calculated columns, measures)","Report canvas & visualizations","Publishing & sharing (Power BI Service)"]
+        },
+        {
+          "id": "m8t2","title":"Tableau",
+          "subtopics": ["Connecting to data sources","Dimensions vs Measures","Chart types (bar, line, map, scatter, treemap)","Calculated fields & LOD expressions","Building dashboards & stories","Tableau Public (free publishing)"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Power BI Primary","title":"Power BI Full Course — Simplilearn (4h)","url":"https://www.youtube.com/watch?v=3u7MQz1EyPY"},
+        {"type":"video","label":"DAX Deep Dive","title":"DAX for Beginners — Guy in a Cube","url":"https://www.youtube.com/playlist?list=PLv2BtOtLblH1YnQAUJJ1OgdKuXK36OHG6"},
+        {"type":"video","label":"Tableau Primary","title":"Tableau Full Course — Edureka","url":"https://www.youtube.com/watch?v=jj6-0cwABqE"},
+        {"type":"practice","label":"Tableau Free","title":"Tableau Public (free tool + publish)","url":"https://public.tableau.com/"},
+        {"type":"mcq","label":"Power BI MCQs","title":"Power BI Quiz — Sanfoundry","url":"https://www.sanfoundry.com/power-bi-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"Power BI Challenge — Maven Analytics","url":"https://www.mavenanalytics.io/data-playground","desc":"Use Maven's free datasets to build a Power BI dashboard. Publish and share."},
+        {"title":"Tableau Public Gallery Challenge","url":"https://public.tableau.com/app/discover","desc":"Recreate any top-100 Tableau Public viz. Best way to learn advanced Tableau."}
+      ]
+    },
+    {
+      "id": "m9",
+      "title": "Excel & Power Query",
+      "subtitle": "Advanced Excel · Power Query · Automation",
+      "icon": "📋",
+      "accent": "#86efac",
+      "topics": [
+        {
+          "id": "m9t1","title":"Excel for Data Analysis",
+          "subtopics": ["Advanced formulas (XLOOKUP, INDEX-MATCH, ARRAYFORMULA)","Pivot Tables & Pivot Charts","Conditional Formatting at scale","Data Validation & Dropdowns","Named Ranges & Dynamic Arrays (FILTER, SORT, UNIQUE)"]
+        },
+        {
+          "id": "m9t2","title":"Power Query",
+          "subtopics": ["Connecting to data sources (CSV, web, databases)","Transform steps (merge, append, unpivot)","M language basics","Automating data refresh","Custom functions in Power Query"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Excel Primary","title":"Excel for Data Analysis — Leila Gharani","url":"https://www.youtube.com/playlist?list=PLmejDGrsgFyAITHoFBFCZ26R0GRIPGopZ"},
+        {"type":"video","label":"Power Query","title":"Power Query Full Course — Excel Campus","url":"https://www.youtube.com/watch?v=0aeZX1l4JT4"},
+        {"type":"practice","label":"Practice","title":"Excel Practice Online","url":"https://excel-practice-online.com/"},
+        {"type":"mcq","label":"MCQs","title":"Excel MCQs — Sanfoundry","url":"https://www.sanfoundry.com/ms-excel-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"Excel Practice Online","url":"https://excel-practice-online.com/","desc":"Interactive exercises directly in the browser. Work through Functions, PivotTables, and Charts sections fully."}
+      ]
+    },
+    {
+      "id": "m10",
+      "title": "Machine Learning",
+      "subtitle": "Supervised · Unsupervised · Model Deployment",
+      "icon": "🤖",
+      "accent": "#fcd34d",
+      "topics": [
+        {
+          "id": "m10t1","title":"ML Foundations",
+          "subtopics": ["Bias-Variance tradeoff","Train/Val/Test splits & cross-validation","Feature engineering & selection","Handling imbalanced datasets (SMOTE, class weights)","Pipelines with scikit-learn"]
+        },
+        {
+          "id": "m10t2","title":"Supervised Learning",
+          "subtopics": ["Linear & Logistic Regression","Decision Trees & Random Forests","Gradient Boosting (XGBoost, LightGBM, CatBoost)","SVM & KNN","Hyperparameter tuning (GridSearch, Optuna)"]
+        },
+        {
+          "id": "m10t3","title":"Unsupervised Learning",
+          "subtopics": ["K-Means & Hierarchical Clustering","DBSCAN","PCA & t-SNE for dimensionality reduction","Anomaly detection","Association Rules (Apriori)"]
+        },
+        {
+          "id": "m10t4","title":"Model Evaluation & Deployment",
+          "subtopics": ["Classification metrics (F1, ROC-AUC, PR curve)","Regression metrics (RMSE, MAE, MAPE)","SHAP values & model explainability","Saving models (pickle, joblib)","Deploying ML with Streamlit/FastAPI"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"ML with Python — freeCodeCamp (Andrew Ng content)","url":"https://www.youtube.com/watch?v=tPYj3fFJGjk"},
+        {"type":"video","label":"Hands-On ML","title":"Scikit-Learn Crash Course — Sentdex","url":"https://www.youtube.com/playlist?list=PLQVvvaa0QuDd0flgGphKCej-9jp-QdzZ3"},
+        {"type":"practice","label":"Interactive","title":"Kaggle ML Course (free)","url":"https://www.kaggle.com/learn/intro-to-machine-learning"},
+        {"type":"collab","label":"Practice Notebook","title":"ML From Scratch — GitHub (eriklindernoren)","url":"https://github.com/eriklindernoren/ML-From-Scratch"},
+        {"type":"docs","label":"Reference","title":"Scikit-Learn User Guide","url":"https://scikit-learn.org/stable/user_guide.html"},
+        {"type":"mcq","label":"MCQs","title":"ML Interview Questions — InterviewBit","url":"https://www.interviewbit.com/machine-learning-interview-questions/"}
+      ],
+      "exercises": [
+        {"title":"Kaggle Titanic ML Competition","url":"https://www.kaggle.com/c/titanic","desc":"Classic intro project. Build a full ML pipeline: EDA → Feature Eng → Model → Submit. Target >80% accuracy."},
+        {"title":"Kaggle House Prices (Regression)","url":"https://www.kaggle.com/c/house-prices-advanced-regression-techniques","desc":"Advanced regression. Use XGBoost, LightGBM. Practice hyperparameter tuning with Optuna."},
+        {"title":"Build & Deploy an ML App","url":"https://docs.streamlit.io/","desc":"Take any trained model, wrap it in Streamlit, add feature inputs, show predictions. Deploy to Streamlit Cloud."}
+      ]
+    },
+    {
+      "id": "m11",
+      "title": "Deep Learning",
+      "subtitle": "Neural Networks · PyTorch · TensorFlow",
+      "icon": "🧠",
+      "accent": "#c084fc",
+      "topics": [
+        {
+          "id": "m11t1","title":"Neural Network Foundations",
+          "subtopics": ["Perceptrons & Multi-layer networks","Activation functions (ReLU, Sigmoid, Softmax)","Forward & Backpropagation (from scratch)","Gradient Descent variants (SGD, Adam, RMSProp)","Batch normalization & Dropout"]
+        },
+        {
+          "id": "m11t2","title":"PyTorch Core",
+          "subtopics": ["Tensors & autograd","Dataset & DataLoader","Building nn.Module models","Training loops","GPU acceleration (CUDA)"]
+        },
+        {
+          "id": "m11t3","title":"Convolutional Neural Networks",
+          "subtopics": ["Convolution, Pooling, Stride","Classic architectures (LeNet, AlexNet, VGG, ResNet)","Transfer Learning (fine-tuning pretrained models)","Data augmentation","Image classification project"]
+        },
+        {
+          "id": "m11t4","title":"Sequence Models",
+          "subtopics": ["RNN & vanishing gradient problem","LSTM & GRU","Sequence-to-sequence models","Attention mechanism intro","Text classification project"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"MIT 6.S191: Introduction to Deep Learning","url":"http://introtodeeplearning.mit.edu/"},
+        {"type":"video","label":"Fast.ai (code-first)","title":"Practical Deep Learning for Coders — fast.ai","url":"https://course.fast.ai/"},
+        {"type":"video","label":"PyTorch Tutorial","title":"PyTorch Full Course — Daniel Bourke","url":"https://www.youtube.com/watch?v=Z_ikDlimN6A"},
+        {"type":"video","label":"Deep Learning Theory","title":"Neural Networks: Zero to Hero — Andrej Karpathy","url":"https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ"},
+        {"type":"collab","label":"Practice Notebook","title":"PyTorch Examples — Official GitHub","url":"https://github.com/pytorch/examples"},
+        {"type":"mcq","label":"MCQs","title":"Deep Learning MCQs — Sanfoundry","url":"https://www.sanfoundry.com/deep-learning-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"fast.ai Lesson Projects","url":"https://course.fast.ai/","desc":"Build a pet classifier, then a custom image classifier on your own dataset. Most effective way to learn DL practically."},
+        {"title":"Kaggle Digit Recognizer","url":"https://www.kaggle.com/c/digit-recognizer","desc":"MNIST CNN from scratch in PyTorch. Classic starter. Target >99% accuracy with proper CNN."},
+        {"title":"Build makemore (char-level LM)","url":"https://github.com/karpathy/makemore","desc":"Follow Andrej Karpathy's makemore series. Build a character-level language model from scratch. Best neural network intuition builder."}
+      ]
+    },
+    {
+      "id": "m12",
+      "title": "NLP",
+      "subtitle": "Text Processing · Transformers · LLMs",
+      "icon": "💬",
+      "accent": "#67e8f9",
+      "topics": [
+        {
+          "id": "m12t1","title":"Text Preprocessing",
+          "subtopics": ["Tokenization, Stemming, Lemmatization","Stop word removal","Bag of Words & TF-IDF","Regular expressions for text","spaCy fundamentals"]
+        },
+        {
+          "id": "m12t2","title":"Classical NLP",
+          "subtopics": ["Text classification (Naive Bayes, Logistic Regression)","Sentiment analysis","Named Entity Recognition","Topic modeling (LDA)","Word embeddings (Word2Vec, GloVe)"]
+        },
+        {
+          "id": "m12t3","title":"Transformers & Modern NLP",
+          "subtopics": ["Attention mechanism deep dive","BERT & its variants","Hugging Face Transformers library","Fine-tuning pretrained models","RAG (Retrieval-Augmented Generation) basics"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"NLP with Python — Udemy (Jose Portilla, free coupon available)","url":"https://www.youtube.com/watch?v=fNxaJsNG3-s"},
+        {"type":"video","label":"Transformers","title":"Hugging Face NLP Course (free)","url":"https://huggingface.co/learn/nlp-course/chapter1/1"},
+        {"type":"collab","label":"Practice","title":"NLP Notebooks — Kaggle NLP Getting Started","url":"https://www.kaggle.com/competitions/nlp-getting-started"},
+        {"type":"docs","label":"Reference","title":"spaCy Documentation","url":"https://spacy.io/usage"},
+        {"type":"mcq","label":"MCQs","title":"NLP MCQs — Sanfoundry","url":"https://www.sanfoundry.com/natural-language-processing-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"Kaggle NLP Disaster Tweets","url":"https://www.kaggle.com/competitions/nlp-getting-started","desc":"Binary text classification. Build TF-IDF + Logistic Regression baseline, then BERT fine-tuned model. Compare both."},
+        {"title":"Hugging Face NLP Course Projects","url":"https://huggingface.co/learn/nlp-course","desc":"Complete all 4 chapters including the final projects. Best free NLP education available."}
+      ]
+    },
+    {
+      "id": "m13",
+      "title": "Computer Vision",
+      "subtitle": "Image Processing · Object Detection · Segmentation",
+      "icon": "👁️",
+      "accent": "#fda4af",
+      "topics": [
+        {
+          "id": "m13t1","title":"Image Processing Basics",
+          "subtopics": ["OpenCV fundamentals (read, resize, crop, rotate)","Color spaces (RGB, HSV, Grayscale)","Image filtering (blur, sharpen, edge detection)","Morphological operations","Histogram analysis & equalization"]
+        },
+        {
+          "id": "m13t2","title":"Deep Learning for CV",
+          "subtopics": ["CNN architectures for vision (ResNet, EfficientNet)","Object Detection (YOLO, Faster R-CNN concepts)","Semantic Segmentation (U-Net)","Transfer Learning with torchvision","Data augmentation with Albumentations"]
+        },
+        {
+          "id": "m13t3","title":"Modern CV",
+          "subtopics": ["Vision Transformers (ViT)","CLIP (zero-shot image classification)","Stable Diffusion concepts","OCR with EasyOCR/Tesseract","Face detection & recognition"]
+        }
+      ],
+      "resources": [
+        {"type":"video","label":"Primary Course","title":"Computer Vision with Python — freeCodeCamp","url":"https://www.youtube.com/watch?v=oXlwWbU8l2o"},
+        {"type":"video","label":"OpenCV","title":"OpenCV Python Tutorial — Murtaza Hassan","url":"https://www.youtube.com/watch?v=WQeoO7MI0Bs"},
+        {"type":"video","label":"Advanced CV","title":"CS231n: CNN for Visual Recognition — Stanford","url":"http://cs231n.stanford.edu/"},
+        {"type":"collab","label":"Practice","title":"Kaggle Computer Vision Course","url":"https://www.kaggle.com/learn/computer-vision"},
+        {"type":"mcq","label":"MCQs","title":"Computer Vision MCQs — Sanfoundry","url":"https://www.sanfoundry.com/computer-vision-questions-answers/"}
+      ],
+      "exercises": [
+        {"title":"Kaggle Plant Pathology (CV)","url":"https://www.kaggle.com/c/plant-pathology-2020-flair","desc":"Multi-class image classification. Use EfficientNet with transfer learning. Build full training pipeline."},
+        {"title":"Build a Face Detection App","url":"https://docs.streamlit.io/","desc":"Use OpenCV face detection + Streamlit to build a real-time webcam face detector app."}
+      ]
+    }
+  ]
+}
