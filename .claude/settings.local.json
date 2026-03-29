@@ -34,7 +34,10 @@
       "Bash(do echo:*)",
       "Read(//c/Users/shsar/Downloads/files - Copy/**)",
       "Bash(done)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(grep -E \"^D.*admin\\\\.js$\")",
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ]
   }
 }
