@@ -53,6 +53,11 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     color: var(--txt);
@@ -140,6 +145,22 @@ body {
     }
     75% {
         transform: translate(30px, 20px) rotate(270deg) scale(1.1);
+    }
+}
+
+/* Simple float animation for dynamic shapes */
+@keyframes float {
+    0% {
+        transform: translateY(0px) translateX(0px);
+    }
+    33% {
+        transform: translateY(-30px) translateX(20px);
+    }
+    66% {
+        transform: translateY(20px) translateX(-20px);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px);
     }
 }
 
@@ -231,6 +252,17 @@ body:hover .spotlight {
     }
     to {
         transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
         opacity: 1;
     }
 }
@@ -912,6 +944,7 @@ textarea.sf-input {
     align-items: center;
     justify-content: space-between;
     height: 64px;
+    width: 100%;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -1037,11 +1070,19 @@ textarea.sf-input {
     font-size: 0.85rem;
 }
 
+/* ✧ APP CONTAINER - Full height layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 /* ✧ MAIN LAYOUT */
 .layout {
     display: grid;
     grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 64px);
+    flex: 1;
+    min-height: 0; /* Prevent overflow */
 }
 
 .sidebar {
@@ -1049,8 +1090,8 @@ textarea.sf-input {
     border-right: 1px solid var(--border);
     padding: 20px 16px;
     position: sticky;
-    top: 64px;
-    height: calc(100vh - 64px);
+    top: 0;
+    height: 100%;
     overflow-y: auto;
     backdrop-filter: blur(10px);
 }
@@ -2375,7 +2416,40 @@ textarea.sf-input {
     }
 
     .sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 1001;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        height: 100vh;
+        border-right: 1px solid var(--border);
+        background: var(--card);
+        padding: 20px 16px;
+        overflow-y: auto;
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    /* Overlay */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
         display: none;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
     }
 
     .modules-grid {
@@ -2392,6 +2466,22 @@ textarea.sf-input {
 
     .mdh-title {
         font-size: 1.4rem;
+    }
+
+    /* Show hamburger menu on mobile */
+    .hamburger-menu {
+        display: flex !important;
+    }
+
+    /* Show close button in sidebar on mobile */
+    .sidebar-close-btn {
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+        .sidebar-close-btn {
+            display: block;
+        }
     }
 }
 

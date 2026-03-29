@@ -29,3 +29,6 @@ Thumbs.db
 
 # Backup files
 *.bak
+
+# Claude Code internal files
+.claude/

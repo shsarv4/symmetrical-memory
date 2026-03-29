@@ -1,0 +1,27 @@
+{
+  "hosting": {
+    "public": "frontend/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "backend"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": {
+    "source": "backend",
+    "runtime": "nodejs18"
+  },
+  "firestore": {
+    "indexes": "firestore.indexes.json"
+  }
+}

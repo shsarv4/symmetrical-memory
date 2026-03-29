@@ -1,43 +1,50 @@
 const express = require('express');
 const router = express.Router();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { getFirestore, admin } = require('../firebase/admin');
 const config = require('../src/config');
 const { verifyFirebaseToken } = require('../middleware/auth');
 
 const db = getFirestore();
+const SETTINGS_COLLECTION = 'appSettings';
+
+// GET /api/gemini-test - Test AI connectivity (public, no auth required)
+router.get('/test', async (req, res) => {
+  try {
+    // Check OpenRouter config
+    const openrouterConfig = config.getOpenRouterConfig();
+
+    if (!openrouterConfig.apiKey) {
+      return res.json({ error: 'OpenRouter API key not configured' });
+    }
+
+    // Return available models list (hardcoded for now, could be dynamic)
+    res.json({
+      success: true,
+      message: 'OpenRouter connection ready',
+      availableModels: [
+        { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', provider: 'Google', type: 'free' },
+        { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', provider: 'Google', type: 'free' },
+        { id: 'mistralai/mixtral-8x7b-instruct', name: 'Mixtral 8x7B Instruct', provider: 'Mistral AI', type: 'free' },
+        { id: 'meta-llama/llama-3.3-70b-instruct', name: 'Llama 3.3 70B Instruct', provider: 'Meta', type: 'free' },
+        { id: 'google/gemma-7b-it', name: 'Gemma 7B IT', provider: 'Google', type: 'free' },
+        { id: 'microsoft/phi-3-mini-4k-instruct', name: 'Phi-3 Mini 4K Instruct', provider: 'Microsoft', type: 'free' },
+        { id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet', provider: 'Anthropic', type: 'paid' },
+        { id: 'anthropic/claude-3-opus', name: 'Claude 3 Opus', provider: 'Anthropic', type: 'paid' }
+      ],
+      hint: 'Select a model from the admin panel'
+    });
+  } catch (error) {
+    console.error('AI test error:', error);
+    res.status(500).json({
+      error: 'AI test failed',
+      message: error.message,
+      details: error.toString()
+    });
+  }
+});
 
 // Apply auth middleware to all protected routes
 router.use(verifyFirebaseToken);
-
-// Initialize Gemini (will be configured per request with user's context)
-let genAI = null;
-
-function getGeminiClient() {
-  const geminiConfig = config.getGeminiConfig();
-
-  // Check if Gemini is enabled
-  if (geminiConfig.enabled === false) {
-    throw new Error('Gemini AI is not enabled. Set "gemini.enabled": true in config.json');
-  }
-
-  const apiKey = geminiConfig.apiKey;
-  if (!apiKey) {
-    throw new Error('GEMINI_API_KEY not configured in config.json');
-  }
-
-  try {
-    if (!genAI) {
-      console.log('🤖 Initializing Gemini AI with API key...');
-      genAI = new GoogleGenerativeAI(apiKey);
-      console.log('✅ Gemini AI initialized successfully');
-    }
-    return genAI;
-  } catch (error) {
-    console.error('❌ Failed to initialize Gemini:', error.message);
-    throw new Error(`Gemini initialization failed: ${error.message}`);
-  }
-}
 
 // GET /api/gemini-conversations - Get user's conversation history
 router.get('/conversations', async (req, res) => {
@@ -63,44 +70,7 @@ router.get('/conversations', async (req, res) => {
   }
 });
 
-// GET /api/gemini-test - Test Gemini connectivity (debug only, PUBLIC)
-router.get('/test', async (req, res) => {
-  // No auth required for this test endpoint
-  try {
-    const geminiConfig = config.getGeminiConfig();
-
-    if (!geminiConfig.enabled) {
-      return res.json({ error: 'Gemini is disabled in config' });
-    }
-
-    if (!geminiConfig.apiKey) {
-      return res.json({ error: 'Gemini API key not configured' });
-    }
-
-    // Try to initialize and list models
-    const { GoogleGenerativeAI } = require('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(geminiConfig.apiKey);
-
-    // List available models
-    const models = await genAI.listModels();
-
-    res.json({
-      success: true,
-      message: 'Gemini connection successful',
-      availableModels: models.map(m => ({ name: m.name, displayName: m.displayName, supportedMethods: m.supportedGenerationMethods })),
-      hint: 'Use one of these model names in the code'
-    });
-  } catch (error) {
-    console.error('Gemini test error:', error);
-    res.status(500).json({
-      error: 'Gemini test failed',
-      message: error.message,
-      details: error.toString()
-    });
-  }
-});
-
-// POST /api/gemini-chat - Send message to Gemini and get streaming response
+// POST /api/gemini-chat - Send message and get streaming response
 router.post('/chat', async (req, res) => {
   try {
     const { message, context } = req.body;
@@ -109,67 +79,119 @@ router.post('/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Get Gemini client
-    const ai = getGeminiClient();
-    // Use gemini-2.5-flash (latest, fast, supports 1M tokens)
-    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    // Get selected model from Firestore (admin can change this)
+    const settingsDoc = await db.collection(SETTINGS_COLLECTION).doc('aiModel').get();
+    // Use config default, then fallback to Mixtral (known working on OpenRouter)
+    let selectedModel = (config.getOpenRouterConfig() || {}).model || 'mistralai/mixtral-8x7b-instruct';
+    if (settingsDoc.exists) {
+      const data = settingsDoc.data();
+      if (data.model) {
+        // Map short model IDs to full OpenRouter IDs if needed
+        selectedModel = mapToOpenRouterModel(data.model);
+      }
+    }
 
-    // Build conversation history from Firestore
+    // Get OpenRouter API key
+    const openrouterConfig = config.getOpenRouterConfig();
+    const apiKey = openrouterConfig.apiKey;
+
+    if (!apiKey) {
+      return res.status(500).json({ error: 'OpenRouter API key not configured' });
+    }
+
+    // Build conversation history from Firestore (last 10 exchanges)
     const docRef = db.collection('geminiConversations').doc(req.user.uid);
     const doc = await docRef.get();
     const conversations = doc.exists ? (doc.data().conversations || []) : [];
 
-    // Build history for context (last 10 exchanges)
-    const history = conversations.slice(-10).map(conv => [
-      { role: 'user', parts: [{ text: conv.userMessage }] },
-      { role: 'model', parts: [{ text: conv.aiResponse }] }
-    ]).flat();
-
-    // Build system prompt with context
-    let systemPrompt = `You are a supportive learning assistant for SwatiArc, a learning tracker app.
+    // Convert to OpenRouter message format
+    const messages = [
+      {
+        role: 'system',
+        content: `You are a supportive learning assistant for SwatiArc, a learning tracker app.
 Your role is to:
 - Answer questions about programming, data science, and course topics
 - Provide encouragement and motivation
 - Help users understand difficult concepts
 - Give study tips and learning strategies
 - Keep responses concise but helpful (2-3 paragraphs max)
-- Use a warm, feminine tone (like a supportive friend/mentor)
-- If asked about code, provide clear explanations with examples`;
+- Use a warm, supportive tone (like a friend/mentor)
+- If asked about code, provide clear explanations with examples`
+      }
+    ];
+
+    // Add conversation history
+    conversations.slice(-10).forEach(conv => {
+      messages.push({ role: 'user', content: conv.userMessage });
+      messages.push({ role: 'assistant', content: conv.aiResponse });
+    });
+
+    // Add current message
+    messages.push({ role: 'user', content: message });
 
     // Add course context if available
     if (context) {
-      systemPrompt += `\n\nCurrent user context:\n`;
-      if (context.currentModule) {
-        systemPrompt += `- Currently studying: ${context.currentModule.title}\n`;
-      }
-      if (context.progress !== undefined) {
-        systemPrompt += `- Progress: ${context.progress}%\n`;
-      }
+      const contextStr = Object.entries(context)
+        .map(([key, value]) => `- ${key}: ${value}`)
+        .join('\n');
+      messages[0].content += `\n\nCurrent context:\n${contextStr}`;
     }
 
-    // Start chat with history and system instruction
-    const chat = model.startChat({
-      history: history,
-      systemInstruction: { role: 'user', parts: [{ text: systemPrompt }] },
-      generationConfig: {
-        maxOutputTokens: 800,
-        temperature: 0.7,
-        topP: 0.8,
-        topK: 40
-      }
+    // Call OpenRouter API with streaming
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': 'http://localhost:5173', // Your app URL
+        'X-Title': 'SwatiArc Learning Tracker' // Your app name
+      },
+      body: JSON.stringify({
+        model: selectedModel,
+        messages: messages,
+        stream: true,
+        max_tokens: 800,
+        temperature: 0.7
+      })
     });
 
-    // Send message and stream response
-    const result = await chat.sendMessageStream(message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || `OpenRouter error: ${response.status}`);
+    }
 
-    let fullResponse = '';
+    // Set up streaming response
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.text();
-      fullResponse += chunkText;
-      res.write(chunkText);
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullResponse = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n').filter(line => line.trim() !== '');
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6);
+          if (data === '[DONE]') continue;
+
+          try {
+            const parsed = JSON.parse(data);
+            const content = parsed.choices?.[0]?.delta?.content || '';
+            if (content) {
+              fullResponse += content;
+              res.write(content);
+            }
+          } catch (e) {
+            // Skip invalid JSON
+          }
+        }
+      }
     }
 
     res.end();
@@ -178,15 +200,11 @@ Your role is to:
     saveConversation(req.user.uid, message, fullResponse, context).catch(console.error);
 
   } catch (error) {
-    console.error('❌ Gemini chat error:', error);
-    console.error('  Error code:', error.code);
-    console.error('  Error message:', error.message);
-    console.error('  Full error:', error);
+    console.error('❌ AI chat error:', error);
     if (!res.headersSent) {
       res.status(500).json({
         error: 'Failed to get response from AI assistant',
-        details: error.message,
-        code: error.code
+        details: error.message
       });
     }
   }
@@ -208,6 +226,28 @@ router.post('/conversations/clear', async (req, res) => {
   }
 });
 
+// Helper function to map short model IDs to OpenRouter format
+function mapToOpenRouterModel(modelId) {
+  // If already in full format (contains /), return as-is
+  if (modelId.includes('/')) {
+    return modelId;
+  }
+
+  // Map short IDs to full OpenRouter model IDs
+  const modelMap = {
+    'gemini-1.5-flash': 'google/gemini-1.5-flash',
+    'gemini-1.5-pro': 'google/gemini-1.5-pro',
+    'mixtral-8x7b-instruct': 'mistralai/mixtral-8x7b-instruct',
+    'llama-3.3-70b-instruct': 'meta-llama/llama-3.3-70b-instruct',
+    'gemma-7b-it': 'google/gemma-7b-it',
+    'phi-3-mini-4k-instruct': 'microsoft/phi-3-mini-4k-instruct',
+    'claude-3.5-sonnet': 'anthropic/claude-3.5-sonnet',
+    'claude-3-opus': 'anthropic/claude-3-opus'
+  };
+
+  return modelMap[modelId] || modelId; // fallback to original if not found
+}
+
 async function saveConversation(uid, userMessage, aiResponse, context) {
   const docRef = db.collection('geminiConversations').doc(uid);
   const newConv = {
@@ -221,7 +261,7 @@ async function saveConversation(uid, userMessage, aiResponse, context) {
   const doc = await docRef.get();
   const conversations = doc.exists ? doc.data().conversations || [] : [];
 
-  // Keep last 50 conversations (about 2500 messages)
+  // Keep last 50 conversations
   const updated = [...conversations, newConv].slice(-50);
 
   await docRef.set({

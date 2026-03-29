@@ -2,7 +2,39 @@
   "permissions": {
     "allow": [
       "Bash(grep -E '\\\\.md$')",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(pkill -f \"server.js\")",
+      "Bash(cd:*)",
+      "Bash(npm create:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(curl -s http://localhost:3000/api/modules)",
+      "Bash(firebase deploy:*)",
+      "Bash(where firebase:*)",
+      "Bash(npm list:*)",
+      "Bash(firebase login:*)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3000)",
+      "Bash(findstr LISTENING)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(grep -v \"^$\")",
+      "Bash(find \"C:\\\\Users\\\\shsar\\\\Downloads\\\\files - Copy\" -type d -name \"__pycache__\" -exec rm -rf {} +)",
+      "Bash(find \"C:\\\\Users\\\\shsar\\\\Downloads\\\\files - Copy\" -name \"*.pyc\" -delete)",
+      "Bash(find \"C:\\\\Users\\\\shsar\\\\Downloads\\\\files - Copy\" -type f -name \"*.log\" -delete)",
+      "Bash(findstr \"firebase\")",
+      "Bash(npm start:*)",
+      "Bash(xargs grep:*)",
+      "WebFetch(domain:www.pinterest.com)",
+      "Bash(npm audit:*)",
+      "Bash(ls -1 *.md)",
+      "Bash(while read:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/shsar/Downloads/files - Copy/**)",
+      "Bash(done)",
+      "Bash(npx eslint:*)"
     ]
   }
 }

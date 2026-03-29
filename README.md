@@ -1,50 +1,68 @@
 # ✨ SwatiArc - Learning Tracker
 
-A beautiful, highly animated learning progress tracker with Pinterest-style aesthetics.
-
-## 🏗️ Architecture (v2.0+)
-
-**Securely separated frontend and backend:**
-
-```
-Frontend (Static HTML/CSS/JS) ↔ Backend API (Node.js) ↔ Firebase Firestore
-```
-
-- 🔐 **Secure**: Firebase credentials never exposed in browser
-- 🚀 **Scalable**: Backend handles authentication & data access
-- ☁️ **Synced**: Progress syncs across devices via cloud
-- 📱 **Responsive**: Works on all devices with beautiful animations
-
-> **Note**: This version uses a Node.js backend. See [SETUP.md](SETUP.md) for complete instructions.
-
-## 🆕 Firebase Authentication
-
-SwatiArc supports Firebase Authentication:
-
-- **Email/Password sign-in** via Firebase Auth
-- **Persistent sessions** across browser restarts
-- **Cloud sync** via secure backend API
-- **Backward compatible** with legacy local-only mode
+A beautiful, highly animated learning progress tracker built with **React + Express + Firebase**. Features Pinterest-style aesthetics, admin panel, dynamic content management, and seamless cloud sync.
 
 ---
 
-## 📚 Documentation
+## 🎯 What's New (v3.0 - MERN Stack)
 
-| File | Purpose |
-|------|---------|
-| **SETUP.md** | Complete setup guide from zero to production ⭐ **START HERE** |
-| **backend/README.md** | Backend API documentation |
+**Full-stack JavaScript architecture** with React frontend and Express backend:
+
+- ⚛️ **React Frontend** - Component-based UI with React Router, Vite build system
+- 🔧 **Express Backend** - RESTful API with middleware, rate limiting, admin auth
+- 🔥 **Firebase Firestore** - Dynamic course content and user progress
+- 📱 **Modern Admin Panel** - CRUD modules, announcements, user management
+- 🌓 **Day/Night Mode** - Enhanced theme system with light/dark variants
+- 🎊 **Preserved Animations** - All original magic: particles, sparkles, ripple clicks, confetti
 
 ---
 
-## 🚀 Quick Start (TL;DR)
+## 🏗️ Architecture
 
-1. **Firebase**: Create project → enable Email/Password auth
-2. **Config**: Update `config.json` with Firebase config and service account
-3. **Backend**: `cd backend && npm install && npm run dev`
-4. **Done**: Open http://localhost:3000 (backend serves frontend)
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   React App     │────▶│   Express API    │────▶│   Firebase      │
+│  (Vite Build)   │     │  (Cloud Funcs)   │     │   Firestore     │
+│                 │◀────│                  │◀────│   Auth          │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+        │                        │                        │
+        └────────────────────────┼────────────────────────┘
+                                 │
+                         ┌───────▼────────┐
+                         │   Firebase      │
+                         │   Hosting       │
+                         └─────────────────┘
+```
 
-See [SETUP.md](SETUP.md) for detailed steps.
+**Deployment**: All hosted on Firebase (Hosting + Cloud Functions)
+
+---
+
+## ✨ Features
+
+### User Features
+- 🔐 **Firebase Authentication** - Secure email/password login
+- 📚 **13 Learning Modules** - Python, NumPy, Pandas, ML, DL, NLP, CV & more
+- ✅ **Progress Tracking** - Topics, subtopics, exercises with checkboxes
+- 📝 **Notes System** - Personal notes per module, auto-saved
+- 🎨 **4 Beautiful Themes** - Lavender, Peach, Mint, Rose (each with dark mode)
+- 🌟 **Magical Animations** - Particles, sparkles, 3D tilt, ripple effects
+- 📱 **Responsive Design** - Works on desktop, tablet, mobile
+
+### Admin Features
+- 👑 **Admin Dashboard** - Statistics: users, modules, announcements
+- 📝 **Module Editor** - Create/edit modules with dynamic topics & resources
+- 📢 **Announcement Manager** - Site-wide banners with carousel display
+- 👥 **User Management** - View users, assign admin roles
+- 🔄 **Real-time Updates** - Changes reflect instantly across the app
+
+### Technical
+- ⚡ **Vite Build System** - Fast HMR, optimized production builds
+- 🔄 **React Router** - Client-side routing with protected routes
+- 🎯 **Context API** - Global state for theme, auth, UI
+- 🔌 **RESTful API** - Clean endpoint structure with middleware
+- 🛡️ **Admin Middleware** - Role-based access control at API layer
+- ☁️ **Firebase Deployment** - Serverless backend, static frontend hosting
 
 ---
 
@@ -52,327 +70,448 @@ See [SETUP.md](SETUP.md) for detailed steps.
 
 ```
 .
-├── config.example.json     # Configuration template (copy to config.json)
-├── frontend/               # Static frontend files (served by backend)
-│   ├── index.html          # Main app UI
-│   ├── styles.css          # Beautiful feminine styling
-│   ├── app.js              # Frontend logic (calls backend API)
-│   └── course.json         # 13 modules with learning content
+├── config.example.json              # Configuration template
+├── config.json                      # ⚠️  YOUR SECRETS (create from example)
+├── firebase.json                    # Firebase Hosting + Functions config
+├── .firebaserc                      # Firebase project alias
 │
-├── backend/                # Node.js API server
-│   ├── server.js           # Express server
-│   ├── package.json        # Dependencies
+├── frontend/                        # React application (Vite)
+│   ├── index.html                   # HTML entry point
+│   ├── index.css                    # Global styles (~2800 lines)
+│   ├── package.json                 # Dependencies (React, React Router)
+│   ├── vite.config.js               # Build configuration
+│   └── src/
+│       ├── main.jsx                 # React entry point
+│       ├── App.jsx                  # Router + route definitions
+│       ├── contexts/
+│       │   ├── AuthContext.jsx      # Authentication state
+│       │   └── ThemeContext.jsx     # Theme + day/night mode
+│       ├── components/
+│       │   ├── auth/
+│       │   │   ├── LoginScreen.jsx  # Lock screen
+│       │   │   └── SetupScreen.jsx  # Registration
+│       │   ├── layout/
+│       │   │   ├── Header.jsx       # Topbar with theme toggle, logout
+│       │   │   ├── Sidebar.jsx      # Module navigation
+│       │   │   └── Layout.jsx       # Main wrapper
+│       │   ├── modules/
+│       │   │   ├── ModuleList.jsx   # Grid of all modules
+│       │   │   ├── ModuleCard.jsx   # Individual card (3D tilt)
+│       │   │   └── ModuleDetail.jsx # Module view with progress
+│       │   ├── admin/
+│       │   │   ├── AdminPanel.jsx      # Dashboard
+│       │   │   ├── AdminModules.jsx    # Module CRUD
+│       │   │   └── AdminAnnouncements.jsx  # Announcement CRUD
+│       │   └── common/
+│       │       ├── AnnouncementBanner.jsx  # Carousel banner
+│       │       ├── ParticleBackground.jsx  # Animated particles
+│       │       └── ThemeSelector.jsx       # Modal theme picker
+│       ├── services/
+│       │   ├── api.js                # Generic API client (auth token)
+│       │   ├── moduleService.js      # Module API calls
+│       │   ├── announcementService.js
+│       │   ├── adminService.js
+│       │   ├── authService.js
+│       │   └── configService.js      # Fetch config from backend
+│       └── utils/
+│           └── constants.js          # THEMES object (light/dark)
+│
+├── backend/                         # Express API server
+│   ├── server.js                    # Express app + Cloud Function export
+│   ├── package.json                 # Dependencies (Express, Firebase Admin)
 │   ├── src/
-│   │   └── config.js       # Configuration loader
-│   ├── routes/
-│   │   ├── progress.js     # Progress sync API
-│   │   └── gemini.js       # AI assistant API
+│   │   └── config.js                # Config loader (supports local + Functions)
+│   ├── firebase/
+│   │   └── admin.js                 # Firebase Admin SDK initialization
 │   ├── middleware/
-│   │   └── auth.js         # Firebase token verification
-│   └── firebase/
-│       └── admin.js        # Firebase Admin SDK
+│   │   └── admin.js                 # Admin role verification middleware
+│   ├── routes/
+│   │   ├── modules.js               # Module CRUD (public read, admin write)
+│   │   ├── announcements.js         # Announcement CRUD (public read, admin write)
+│   │   ├── admin.js                 # Admin-only: stats, users, role changes
+│   │   ├── progress.js              # User progress tracking
+│   │   └── gemini.js                # AI assistant (optional)
+│   └── scripts/
+│       └── migrate-course.js        # One-time: import course.json to Firestore
 │
-├── config.json             # ⚠️  YOUR SECRETS (create from example)
-└── README.md               # This file
+├── functions/                       # Firebase Cloud Functions wrapper
+│   ├── package.json                 # Dependencies (subset of backend)
+│   └── index.js                     # Exports Express app as Cloud Function
+│
+├── frontend_legacy/                 # Backup of original vanilla JS app
+│   ├── index.html
+│   ├── styles.css
+│   └── app.js
+│
+└── course.json (legacy)             # Original course data (migrated to Firestore)
+
 ```
-
-## 🚀 Features
-
-### 1. First-Time User Experience
-- ✨ Animated lock screen with SVG logo
-- 📚 Detailed 3-step setup instructions
-- 🔒 Secure password hashing (SHA-256)
-- ☁️ Optional GitHub sync for cross-device access
-- 🌟 Beautiful illustrations (no emojis!)
-
-### 2. Beautiful SVG Icons
-All 13 module icons are custom SVG with gradients:
-- 🐍 Python Programming
-- 🔢 NumPy
-- 🐼 Pandas
-- 📊 Data Visualization
-- 🔍 Exploratory Data Analysis
-- 🚀 APIs & Streamlit
-- 🗄️ SQL & Databases
-- 📈 Power BI & Tableau
-- 📋 Excel & Power Query
-- 🤖 Machine Learning
-- 🧠 Deep Learning
-- 💬 NLP
-- 👁️ Computer Vision
-
-### 3. Theme Selector (4 Pinterest-Style Themes)
-Click the palette icon (🎨) in the topbar to choose:
-
-1. **Lavender Dreams** (Default)
-   - Soft purple/pink/mint pastels
-   - Dreamy and feminine
-
-2. **Peach Blush**
-   - Warm peach/coral tones
-   - Cozy and inviting
-
-3. **Mint Fresh**
-   - Cool green/teal/cyan palette
-   - Clean and refreshing
-
-4. **Rose Gold**
-   - Rich rose/pink/gold accents
-   - Elegant and luxurious
-
-All themes maintain the same Pinterest aesthetic with different color palettes.
-
-### 4. Magical Animations & Effects
-
-- ✅ **Ripple clicks** on all buttons
-- ✅ **Floating hearts** burst on login/setup
-- ✅ **Confetti celebration** with emojis when module completes
-- ✅ **3D parallax tilt** on cards (mouse follow)
-- ✅ **Spotlight glow** follows cursor
-- ✅ **Logo sparkle easter egg** (click the logo!)
-- ✅ **Rising particles** with rotation
-- ✅ **Bouncing icons** throughout
-- ✅ **Smooth page transitions** with fade/slide
-- ✅ **Hover lift effects** with multi-layer shadows
-
-### 5. Enhanced Typography
-- Larger text sizes for better readability
-- Beautiful gradient headings
-- Consistent font hierarchy
-
-### 6. Core Functionality (Preserved)
-- ✅ Password protection
-- ✅ GitHub sync (optional)
-- ✅ 13 complete modules with topics & subtopics
-- ✅ Progress tracking (overall & per module)
-- ✅ Exercise completion tracking
-- ✅ Notes area for each module
-- ✅ Resource links (videos, docs, practice)
-- ✅ Responsive design for mobile
-- ✅ Local storage persistence
-
-## 🚀 Quick Start & Deployment
-
-### 📁 Files
-- **index.html** - Main HTML structure with Firebase SDK
-- **styles.css** - 2100+ lines of beautiful styling with animations
-- **app.js** - Full functionality including Firebase Auth
-
-### ⚡ Local Development (No Setup)
-1. Simply open `index.html` in any modern browser
-2. Choose **Legacy Mode** (skip Firebase) or set up Firebase (see below)
-3. Works entirely offline after first load
 
 ---
 
-## 🔥 Firebase Setup (Authentication Only)
+## 🚀 Quick Start (TL;DR)
 
-### Step 1: Create Firebase Project
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Click **"Add project"** → Enter project name → Enable Google Analytics (optional) → Create
-3. Wait for project to be ready (~30 seconds)
+1. **Firebase**: Create project → enable Email/Password auth
+2. **Config**: Create `config.json` from `config.example.json` + fill Firebase config + service account
+3. **Backend**: `cd backend && npm install && npm run dev`
+4. **Frontend**: `cd frontend && npm install && npm run dev`
+5. Open **http://localhost:5173** (Vite) or **http://localhost:3000** (backend serves frontend)
 
-### Step 2: Enable Authentication
-1. In Firebase Console, go to **Authentication** → **Sign-in method**
-2. Click **"Email/Password"** → Enable → Save
+See [SETUP.md](SETUP.md) for complete detailed instructions.
 
-**Note**: No Firestore database needed. This app uses Firebase Authentication only.
+---
 
-### Step 3: Get Firebase Config
-1. In Firebase Console, click the gear icon ⚙️ → **Project settings**
-2. Scroll to **"Your apps"** → Click **" web"** (</>) icon
-3. Register app (nickname: `swatiarc`) → **Register app**
-4. Copy the `firebaseConfig` object
-5. Paste into **app.js** at line ~20, replacing the `FIREBASE_CONFIG` placeholder:
+## 📚 Documentation
 
-```javascript
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSy...",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-};
+| File | Purpose |
+|------|---------|
+| **[SETUP.md](SETUP.md)** | Complete step-by-step setup guide ⭐ **START HERE** |
+| **backend/README.md** | Backend API reference |
+| **config.example.json** | Configuration template with all fields |
+| **firebase.json** | Firebase deployment configuration |
+
+---
+
+## 🔧 Configuration
+
+### config.json Structure
+
+Create `config.json` in the project root:
+
+```json
+{
+  "firebase": {
+    "apiKey": "AIzaSy...",
+    "authDomain": "your-project.firebaseapp.com",
+    "projectId": "your-project-id",
+    "storageBucket": "your-project.appspot.com",
+    "messagingSenderId": "123456789",
+    "appId": "1:123456789:web:abcdef"
+  },
+  "serviceAccount": {
+    "type": "service_account",
+    "project_id": "your-project-id",
+    "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----",
+    "client_email": "firebase-adminsdk-xxxx@your-project.iam.gserviceaccount.com",
+    "...": "..."
+  },
+  "backend": {
+    "port": 3000,
+    "corsOrigins": ["http://localhost:3000", "http://localhost:5173"]
+  },
+  "app": {
+    "apiBaseUrl": ""
+  }
+}
 ```
 
-**Important**: Keep this config public (it's meant for client-side use). Do NOT commit real credentials to public repos.   
+**Where to get values:**
 
-### Step 4: Deploy Your App
-Choose any static hosting:
+- `firebase.*` → Firebase Console → Project Settings → "Your apps" → Web app config
+- `serviceAccount` → Firebase Console → Project Settings → "Service accounts" → "Generate new private key"
+- `backend.corsOrigins` → Add frontend dev server URL (localhost:5173) and backend URL (localhost:3000)
+- `app.apiBaseUrl` → Leave empty `""` for same-origin, or set to backend URL if separate
 
-#### Option A: Firebase Hosting (Recommended)
+---
+
+## 🎨 Themes & Customization
+
+### Built-in Themes (4 Pastel Palettes)
+1. **Lavender Dreams** (default) - Purple/pink/mint
+2. **Peach Blush** - Warm peach/coral
+3. **Mint Fresh** - Cool green/teal
+4. **Rose Gold** - Rose/pink/gold
+
+**Each theme has light and dark mode variants!**
+
+### Access Theme Selector
+Click the **palette icon** 🎨 in the top-right corner.
+
+### Customize Colors
+Edit `frontend/src/utils/constants.js` → `THEMES` object. Add new theme keys and update `ThemeSelector.jsx`.
+
+---
+
+## 👑 Admin Setup
+
+### First Admin User (Manual)
+
+1. Run the app and create a regular user (login with Firebase)
+2. Go to **Firebase Console** → **Firestore Database**
+3. Navigate to `users/{uid}` collection (where `{uid}` is the Firebase UID of your user)
+4. Create/update document with:
+   ```json
+   {
+     "email": "your-email@example.com",
+     "role": "admin",
+     "displayName": "Your Name"
+   }
+   ```
+5. Refresh the app → **Admin** button appears in topbar
+6. Click **Admin** to access dashboard
+
+### Admin Capabilities
+- **Manage Modules**: Add, edit, delete course modules (topics, resources, exercises)
+- **Manage Announcements**: Create site-wide banners (carousel) with type colors
+- **User Management**: View all users, promote/demote admin roles
+- **Dashboard Stats**: View user count, modules, progress
+
+---
+
+## ☁️ Firebase Deployment
+
+### Prerequisites
+- Firebase CLI installed: `npm install -g firebase-tools`
+- Logged in: `firebase login`
+- Firebase project created
+
+### Deploy Everything (One Command)
 ```bash
-npm install -g firebase-tools
-firebase login
-firebase init
-  - Select Hosting
-  - Choose your project
-  - Set public directory: (leave empty or ".")
-  - Configure as single-page app: Yes
-  - Set up automatic builds: No
-
 firebase deploy
 ```
-Your app will be live at: `https://your-project.web.app`
 
-#### Option B: GitHub Pages
-1. Push your files to a GitHub repository
-2. Go to repo → Settings → Pages
-3. Source: `Deploy from branch`
-4. Branch: `main` → `/ (root)`
-5. Save → Your site will be at: `https://username.github.io/repo-name`
+This deploys:
+- **Hosting**: React app (frontend/build) → `firebase.json` hosting config
+- **Functions**: Express backend → `functions/index.js` Cloud Function
 
-#### Option C: Vercel / Netlify
-- Drag and drop the folder containing `index.html`, `styles.css`, `app.js`
-- Or connect Git repository for automatic deployments
+### Configuration for Production
 
----
+Set Firebase Functions config once:
 
-## 🎯 How to Use
+```bash
+firebase functions:config:set \
+  firebase.api_key="YOUR_API_KEY" \
+  firebase.auth_domain="YOUR_PROJECT.firebaseapp.com" \
+  firebase.project_id="YOUR_PROJECT_ID" \
+  firebase.storage_bucket="YOUR_PROJECT.appspot.com" \
+  firebase.messaging_sender_id="YOUR_SENDER_ID" \
+  firebase.app_id="YOUR_APP_ID"
+```
 
-### First-Time User (Firebase Mode):
-1. Open the app → Click **"Begin your adventure"**
-2. **Check** the "Use Firebase" checkbox
-3. Enter email & password (min 6 characters)
-4. (Optional) Add GitHub credentials for course content sync
-5. Click **"Start My Learning Journey"**
-6. Start tracking progress freely — no credit limits!
-
-### First-Time User (Legacy Mode):
-1. Open `index.html` in browser
-2. Click **"Begin your adventure"** → skip Firebase checkbox
-3. Set password (min 6 characters)
-4. (Optional) Add GitHub credentials for cloud sync
-5. Click **"Start My Learning Journey"**
-
-### Returning User:
-1. Enter your email (if Firebase) or password (if legacy)
-2. Progress auto-loads from localStorage (and GitHub if configured)
-3. Continue where you left off
-
-### Tracking Progress:
-- **Topics/Subtopics**: Click checkbox to mark complete
-- **Exercises**: Check the box when done
-- **Notes**: Type in the notes area → auto-saved
-
-### Logout:
-- Click the **lock icon** 🔒 in top-right
-- Returns to lock screen
-
-### Syncing GitHub (Optional):
-- Click **"LOCAL"** badge in topbar
-- Enter GitHub username, repo name, and Personal Access Token
-- Course content (`course.json`) syncs automatically
-- Progress (`progress.json`) syncs to your repo
-- Token must have **repo** scope
-
-### Changing Theme:
-1. Click the palette icon (🎨) in top-right
-2. Select your preferred theme
-3. Transform happens instantly!
+**Note**: The backend's `config.js` will automatically use `functions.config()` in production (Cloud Functions), falling back to `config.json` in development.
 
 ---
 
-## 🎨 Customization
+## 🧪 Development Workflow
 
-### Adding New Themes:
-Edit `app.js` → `THEMES` object and add a new color palette. Then add the theme option in `index.html` inside `#themeModalBody`.
+### Start Backend (API)
+```bash
+cd backend
+npm install
+npm run dev   # or: npm start
+```
+Server runs on **http://localhost:3000**
 
-### Modifying Course Content:
-Course data is in `app.js` → `DEFAULT_COURSE` constant (lines ~70-458). Edit modules, topics, resources, and exercises directly. Or update `course.json` if using GitHub sync.
+### Start Frontend (React Dev)
+```bash
+cd frontend
+npm install
+npm run dev   # Vite dev server on http://localhost:5173
+```
+Vite proxies `/api` requests to `http://localhost:3000`.
+
+### Build for Production
+```bash
+cd frontend
+npm run build   # Outputs to frontend/build/
+```
+
+### Run All Together (Backend serves frontend)
+The backend (`server.js`) automatically serves the `frontend/` directory when running locally (not in Cloud Functions). Just start the backend and open **http://localhost:3000**.
 
 ---
 
-## 🛠 Technical Details
+## 🗂️ Data Model (Firestore)
 
-- **No build process required** - pure HTML/CSS/JS
-- **No backend server** - fully client-side
-- **Works offline** after first load (Firebase auth persists)
-- **Secure**: Passwords hashed with SHA-256 (legacy) or Firebase Auth (modern)
-- **Responsive** - optimized for mobile & desktop
-- **Modern browsers** - Chrome, Firefox, Safari, Edge (latest 2 versions)
-- **Firebase SDK**: v10.6.0 (compat libraries)
+### modules/{moduleId}
+```javascript
+{
+  id: "m1",
+  title: "Python Programming",
+  subtitle: "Basics → OOP → File Handling",
+  icon: "🐍",
+  accent: "#c084fc",
+  topics: [
+    {
+      id: "m1t1",
+      title: "Python Fundamentals",
+      subtopics: ["Variables", "Data Types", "Operators"]
+    }
+  ],
+  resources: [
+    { type: "video", label: "Tutorial", title: "Python 101", url: "https://..." }
+  ],
+  exercises: [
+    { title: "Build a Calculator", url: "https://...", desc: "Create a CLI calculator" }
+  ],
+  order: 1,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### announcements/{announcementId}
+```javascript
+{
+  id: "abc123",
+  title: "New Features!",
+  message: "We've added dark mode.",
+  type: "update",           // info | warning | success | update
+  active: true,
+  startDate: timestamp,     // optional - when to show
+  endDate: timestamp,       // optional - when to hide
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### users/{uid}
+```javascript
+{
+  uid: "firebase-uid-xxx",
+  email: "user@example.com",
+  role: "admin" | "user",
+  displayName: "Swati",
+  photoURL: null,
+  createdAt: timestamp,
+  lastLogin: timestamp,
+  progress: {
+    "t_m1t1": true,
+    "s_m1t1_0": false,
+    "e_m1_0": true,
+    "notes_m1": "My notes..."
+  }
+}
+```
+
+---
+
+## 🧪 Testing Checklist
+
+### Backend
+- [x] GET `/api/modules` returns all modules (ordered)
+- [x] GET `/api/modules/:id` returns single module
+- [x] POST `/api/modules` (admin) creates module
+- [x] PUT `/api/modules/:id` (admin) updates module
+- [x] DELETE `/api/modules/:id` (admin) deletes module
+- [x] GET `/api/announcements` returns active announcements
+- [x] POST `/api/announcements` (admin) creates announcement
+- [x] GET `/api/admin/users` (admin) returns user list
+- [x] PUT `/api/admin/users/:uid/role` (admin) changes role
+- [x] Admin middleware blocks non-admin users
+- [x] Config endpoint `/api/config` serves Firebase config to frontend
+
+### Frontend
+- [x] Login works (Firebase Auth)
+- [x] Registration works
+- [x] Modules load and display correctly
+- [x] Progress tracking works (checkboxes save)
+- [x] Theme switching works (all 4 themes)
+- [x] Day/night mode switching works
+- [x] Announcement banner carousel (auto-slide, navigation, dismiss)
+- [x] Admin panel visible only to admins
+- [x] Module editor form (create/edit with dynamic topics)
+- [x] Announcement manager CRUD
+- [x] All animations preserved (particles, ripple, sparkles, 3D tilt)
+- [x] Responsive layout (sidebar collapses on mobile)
+
+### Deployment
+- [ ] `firebase deploy` succeeds (Hosting + Functions)
+- [ ] Backend Cloud Function responds
+- [ ] Frontend loads from Hosting
+- [ ] API rewrites work (`/api/*` → Cloud Function)
+- [ ] SPA fallback works (refresh on `/module/:id`)
+- [ ] Firebase Auth works in production
+
+---
+
+## 🔄 Migration from Legacy
+
+The original vanilla JS app is preserved in `frontend_legacy/`. Course data was automatically migrated via:
+
+```bash
+node backend/scripts/migrate-course.js
+```
+
+This creates `modules` collection in Firestore from `frontend/course.json`.
+
+To re-run (e.g., force overwrite):
+```bash
+node backend/scripts/migrate-course.js --force
+```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Firebase not initializing:
-- Check browser console for errors
-- Ensure `FIREBASE_CONFIG` is properly filled with your credentials
-- Verify Firebase SDK scripts are loading (check Network tab)
-- Confirm Authentication is enabled in Firebase Console
+### Backend won't start
+- Verify `config.json` exists and is valid JSON
+- Check that `serviceAccount.private_key` is complete (multi-line string)
+- Ensure port 3000 is not in use
 
-### Login issues:
-- Check email/password are correct
-- If using legacy mode, ensure password is at least 6 characters
-- Clear localStorage if switching between modes
+### Firebase auth errors (400 Bad Request)
+- **Enable Email/Password auth** in Firebase Console → Authentication → Sign-in methods
+- Verify `firebase.*` config in `config.json` matches your Firebase project
+- Restart backend after config changes
 
-### GitHub sync failing:
-- Token must have `repo` scope (full repo access)
-- Repo must exist and be accessible with the token
-- Check Network tab for CORS or network errors
-- Try generating a new token
+### Frontend API calls fail (401, 403)
+- Ensure you're logged in (check top-right icon)
+- For admin endpoints, make sure user has `role: "admin"` in Firestore
+- Check CORS: `backend.corsOrigins` should include frontend URL (localhost:5173 for Vite)
 
-### Progress not saving:
-- Check localStorage is enabled (not in private/incognito mode)
-- Check console for errors
-- `scheduleSave()` debounces 900ms; wait a moment after changes
+### Announcement banner not showing
+- Ensure announcements exist in Firestore with `active: true`
+- Check that current date is within `startDate`/`endDate` range if specified
+- Dismissed announcements are stored in `sessionStorage` - clear to see them again
+
+### Theme not applying correctly
+- Check browser console for CSS variable errors
+- Verify `data-theme` and `data-mode` attributes on `<html>` element
+- ThemeContext requires `ThemeProvider` wrapper in `App.jsx`
+
+---
+
+## 📦 Package Scripts
+
+**Backend** (`backend/package.json`):
+- `npm start` - Start server (production)
+- `npm run dev` - Start with nodemon (auto-reload)
+
+**Frontend** (`frontend/package.json`):
+- `npm run dev` - Start Vite dev server (with HMR)
+- `npm run build` - Build for production (`frontend/build/`)
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+**Functions** (`functions/package.json`):
+- `npm run serve` - Start Firebase emulators
+- `npm run deploy` - Deploy only functions
+- `npm run logs` - View function logs
 
 ---
 
 ## 📝 Notes
 
-- All emojis replaced with custom SVG icons for performance
-- Course data automatically loads from `course.json` if GitHub sync enabled
-- Progress saves automatically (debounced 900ms)
-- Theme preference saved to localStorage
-- Particles regenerate when theme changes
+- **No legacy mode**: This version **requires** Firebase Authentication. Local-only mode removed.
+- **Single config source**: Frontend fetches Firebase config from backend `/api/config` (no config files in frontend).
+- **Admin assigns admin**: First admin must be created manually via Firestore console.
+- **Course content dynamic**: Edit modules via Admin Panel → changes saved to Firestore instantly.
+- **Cloud Functions ready**: Backend exports as Cloud Function; `config.js` auto-detects environment.
+- **Performance**: Vite build ~87KB gzipped; lazy loading possible for future components.
 
 ---
 
-## 🎉 Enjoy Your Beautiful Learning Journey!
+## 🎉 Getting Help
 
-**Version**: 3.0 (Firebase Auth Added)
-**Design**: Pinterest-style feminine aesthetic
-**Animations**: Highly dynamic throughout
-**Icons**: Custom SVG illustrations
-**Themes**: 4 beautiful color palettes
-**Auth**: Password (legacy) or Firebase Email/Password
-
-## 🎨 Customization
-
-### Adding New Themes:
-Edit `app.js` → `THEMES` object and add new color palette.
-
-### Modifying Course Content:
-Course data is in `app.js` → `DEFAULT_COURSE` constant.
-If GitHub sync is enabled, course.json is also fetched from the repository.
-
-## 🔧 Technical Details
-
-- **No build process required** - pure HTML/CSS/JS
-- **No external dependencies** (except Google Fonts)
-- **Works offline** after first load
-- **Secure** - passwords hashed with SHA-256
-- **Responsive** - works on all screen sizes
-- **Modern browsers** - Chrome, Firefox, Safari, Edge
-
-## 📝 Notes
-
-- All emojis replaced with custom SVG icons
-- Course data automatically loads from `course.json` if GitHub sync enabled
-- Progress saves automatically (debounced 900ms)
-- Theme preference saved to localStorage
-- Particles regenerate when theme changes
-
-## 🎉 Enjoy Your Beautiful Learning Journey!
+- **SETUP.md** - Detailed step-by-step setup from zero
+- **backend/README.md** - API endpoint reference
+- **Firebase Console** - Manage users, view Firestore data
+- **GitHub Issues** - Report bugs or request features
 
 ---
 
-**Version**: 2.0
-**Design**: Pinterest-style feminine aesthetic
-**Animations**: Highly dynamic throughout
-**Icons**: Custom SVG illustrations
-**Themes**: 4 beautiful color palettes
+**Built with ❤️ and React + Express + Firebase**
+
+**Version**: 3.0 (MERN Stack)
+**License**: MIT
+**Last Updated**: March 2025
