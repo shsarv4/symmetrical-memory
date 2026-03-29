@@ -1,8 +1,10 @@
 {
   "permissions": {
     "allow": [
+      "Bash(grep -E \"^d.*\\\\.claude$\")",
+      "Bash(ls:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit -m \"docs: consolidate into single master reference:*)"
     ]
   }
 }
