@@ -45,7 +45,8 @@ router.get('/', async (req, res) => {
       announcements
     });
   } catch (error) {
-    console.error('Error fetching announcements:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching announcements:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch announcements' });
   }
 });
@@ -75,7 +76,8 @@ router.get('/all', verifyAdmin, async (req, res) => {
       announcements
     });
   } catch (error) {
-    console.error('Error fetching all announcements:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching all announcements:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch announcements' });
   }
 });
@@ -125,7 +127,8 @@ router.post('/', verifyAdmin, async (req, res) => {
       announcement: { ...announcementData, id: docRef.id }
     });
   } catch (error) {
-    console.error('Error creating announcement:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error creating announcement:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to create announcement' });
   }
 });
@@ -173,7 +176,8 @@ router.put('/:id', verifyAdmin, async (req, res) => {
       message: 'Announcement updated successfully'
     });
   } catch (error) {
-    console.error('Error updating announcement:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error updating announcement:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to update announcement' });
   }
 });
@@ -196,7 +200,8 @@ router.delete('/:id', verifyAdmin, async (req, res) => {
       message: 'Announcement deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting announcement:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error deleting announcement:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to delete announcement' });
   }
 });

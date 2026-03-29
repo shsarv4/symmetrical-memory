@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
@@ -23,6 +24,9 @@ app.use(cors({
   credentials: true
 }));
 
+// Security headers with Helmet
+app.use(helmet());
+
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +35,8 @@ app.use(express.urlencoded({ extended: true }));
 try {
   initializeAdmin();
 } catch (error) {
-  console.error('Failed to initialize Firebase Admin:', error);
+  const isProd = process.env.NODE_ENV === 'production';
+  console.error('Failed to initialize Firebase Admin:', isProd ? error.message : error);
   process.exit(1);
 }
 
@@ -75,7 +80,7 @@ app.use('/api/progress', verifyFirebaseToken, progressRoutes);
 // });
 
 // app.use('/api/gemini', limiter, require('./routes/gemini'));
-app.use('/api/gemini', require('./routes/gemini')); // No rate limit for now
+app.use('/api/gemini', require('./routes/gemini')); // Rate limiting enabled in routes/gemini.js
 
 // Admin routes (require both Firebase auth AND admin role)
 app.use('/api/admin', verifyFirebaseToken, require('./routes/admin'));

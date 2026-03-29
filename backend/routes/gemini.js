@@ -3,6 +3,7 @@ const router = express.Router();
 const { getFirestore, admin } = require('../firebase/admin');
 const config = require('../src/config');
 const { verifyFirebaseToken } = require('../middleware/auth');
+const rateLimit = require('express-rate-limit');
 
 const db = getFirestore();
 const SETTINGS_COLLECTION = 'appSettings';
@@ -34,7 +35,8 @@ router.get('/test', async (req, res) => {
       hint: 'Select a model from the admin panel'
     });
   } catch (error) {
-    console.error('AI test error:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('AI test error:', isProd ? error.message : error);
     res.status(500).json({
       error: 'AI test failed',
       message: error.message,
@@ -45,6 +47,18 @@ router.get('/test', async (req, res) => {
 
 // Apply auth middleware to all protected routes
 router.use(verifyFirebaseToken);
+
+// Rate limiting for AI chat endpoints (per-user)
+const rateLimitConfig = config.getBackendConfig().rateLimit || { windowMs: 15 * 60 * 1000, max: 100 };
+const geminiLimiter = rateLimit({
+  windowMs: rateLimitConfig.windowMs,
+  max: rateLimitConfig.max,
+  keyGenerator: (req) => req.user?.uid || req.ip,
+  standardHeaders: true,
+  message: { error: 'Too many requests, please try again later.' }
+});
+
+router.use(geminiLimiter);
 
 // GET /api/gemini-conversations - Get user's conversation history
 router.get('/conversations', async (req, res) => {
@@ -65,7 +79,8 @@ router.get('/conversations', async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('Error loading conversations:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error loading conversations:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to load conversations' });
   }
 });
@@ -98,6 +113,11 @@ router.post('/chat', async (req, res) => {
     if (!apiKey) {
       return res.status(500).json({ error: 'OpenRouter API key not configured' });
     }
+
+    // Get app URL for OpenRouter referer (use config, fallback to request origin)
+    const appConfig = config.getAppConfig();
+    const appUrl = appConfig.appUrl ||
+                   (req.headers.origin && req.headers.origin !== 'null' ? req.headers.origin : 'http://localhost:5173');
 
     // Build conversation history from Firestore (last 10 exchanges)
     const docRef = db.collection('geminiConversations').doc(req.user.uid);
@@ -143,8 +163,8 @@ Your role is to:
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'http://localhost:5173', // Your app URL
-        'X-Title': 'SwatiArc Learning Tracker' // Your app name
+        'HTTP-Referer': appUrl,
+        'X-Title': appConfig.name || 'SwatiArc Learning Tracker'
       },
       body: JSON.stringify({
         model: selectedModel,
@@ -200,7 +220,8 @@ Your role is to:
     saveConversation(req.user.uid, message, fullResponse, context).catch(console.error);
 
   } catch (error) {
-    console.error('❌ AI chat error:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('❌ AI chat error:', isProd ? error.message : error);
     if (!res.headersSent) {
       res.status(500).json({
         error: 'Failed to get response from AI assistant',
@@ -221,7 +242,8 @@ router.post('/conversations/clear', async (req, res) => {
 
     res.json({ success: true, message: 'Conversation history cleared' });
   } catch (error) {
-    console.error('Error clearing conversations:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error clearing conversations:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to clear conversations' });
   }
 });

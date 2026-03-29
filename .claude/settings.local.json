@@ -4,7 +4,14 @@
       "Bash(grep -E \"^d.*\\\\.claude$\")",
       "Bash(ls:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"docs: consolidate into single master reference:*)"
+      "Bash(git commit -m \"docs: consolidate into single master reference:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(npm run:*)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npm install:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ]
   }
 }

@@ -31,7 +31,8 @@ async function verifyAdmin(req, res, next) {
     console.log(`✅ Admin access granted for user: ${uid}`);
     next();
   } catch (error) {
-    console.error('Admin verification error:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Admin verification error:', isProd ? error.message : error);
     return res.status(500).json({ error: 'Authentication error' });
   }
 }

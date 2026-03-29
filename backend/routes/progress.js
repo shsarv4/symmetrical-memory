@@ -30,7 +30,8 @@ router.get('/', async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('Error loading progress:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error loading progress:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to load progress' });
   }
 });
@@ -76,7 +77,8 @@ router.post('/', async (req, res) => {
       message: 'Progress saved successfully'
     });
   } catch (error) {
-    console.error('Error saving progress:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error saving progress:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to save progress' });
   }
 });

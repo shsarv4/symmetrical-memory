@@ -31,7 +31,8 @@ router.get('/', async (req, res) => {
       modules
     });
   } catch (error) {
-    console.error('Error fetching modules:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching modules:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch modules' });
   }
 });
@@ -57,7 +58,8 @@ router.get('/:id', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching module:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching module:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch module' });
   }
 });
@@ -116,7 +118,8 @@ router.post('/', verifyAdmin, async (req, res) => {
       module: { ...moduleData, id: moduleId }
     });
   } catch (error) {
-    console.error('Error creating module:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error creating module:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to create module' });
   }
 });
@@ -164,7 +167,8 @@ router.put('/:id', verifyAdmin, async (req, res) => {
       message: 'Module updated successfully'
     });
   } catch (error) {
-    console.error('Error updating module:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error updating module:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to update module' });
   }
 });
@@ -187,7 +191,8 @@ router.delete('/:id', verifyAdmin, async (req, res) => {
       message: 'Module deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting module:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error deleting module:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to delete module' });
   }
 });

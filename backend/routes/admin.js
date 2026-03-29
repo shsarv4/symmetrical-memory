@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getFirestore, admin } = require('../firebase/admin');
 const { verifyAdmin } = require('../middleware/admin');
+const { verifySelfOrAdmin } = require('../middleware/selfOrAdmin');
 
 const db = getFirestore();
 
@@ -41,7 +42,8 @@ router.get('/stats', verifyAdmin, async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching admin stats:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching admin stats:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch statistics' });
   }
 });
@@ -72,7 +74,8 @@ router.get('/users', verifyAdmin, async (req, res) => {
       users
     });
   } catch (error) {
-    console.error('Error fetching users:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching users:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 });
@@ -107,53 +110,23 @@ router.put('/users/:uid/role', verifyAdmin, async (req, res) => {
       message: `User role updated to ${role}`
     });
   } catch (error) {
-    console.error('Error updating user role:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error updating user role:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to update user role' });
   }
 });
 
 // GET /api/admin/users/:uid - Get single user details
 // Users can view their own profile, but admins can view any user
-router.get('/users/:uid', async (req, res) => {
+router.get('/users/:uid', verifySelfOrAdmin, async (req, res) => {
   try {
     const { uid } = req.params;
-
-    // If requesting own profile, allow without admin check
-    if (req.user.uid === uid) {
-      const doc = await db.collection('users').doc(uid).get();
-      if (!doc.exists) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      const data = doc.data();
-      return res.json({
-        success: true,
-        user: {
-          uid: doc.id,
-          email: data.email,
-          role: data.role || 'user',
-          displayName: data.displayName || null,
-          photoURL: data.photoURL || null,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-          lastLogin: data.lastLogin?.toDate?.()?.toISOString() || data.lastLogin,
-          progress: data.progress || {}
-        }
-      });
-    }
-
-    // For other users, require admin role
-    if (req.user.role !== 'admin') {
-      // Need to check admin status from Firestore
-      const userDoc = await db.collection('users').doc(req.user.uid).get();
-      if (!userDoc.exists || userDoc.data()?.role !== 'admin') {
-        return res.status(403).json({ error: 'Admin access required' });
-      }
-    }
-
-    // If we get here, user is admin viewing another user's profile
     const doc = await db.collection('users').doc(uid).get();
+
     if (!doc.exists) {
       return res.status(404).json({ error: 'User not found' });
     }
+
     const data = doc.data();
     res.json({
       success: true,
@@ -169,7 +142,8 @@ router.get('/users/:uid', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching user:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching user:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch user' });
   }
 });
@@ -216,7 +190,8 @@ router.get('/ai-model', async (req, res) => {
       ]
     });
   } catch (error) {
-    console.error('Error fetching AI model:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error fetching AI model:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to fetch AI model setting' });
   }
 });
@@ -241,7 +216,8 @@ router.put('/ai-model', verifyAdmin, async (req, res) => {
       message: `AI model updated to ${model}`
     });
   } catch (error) {
-    console.error('Error updating AI model:', error);
+    const isProd = process.env.NODE_ENV === 'production';
+    console.error('Error updating AI model:', isProd ? error.message : error);
     res.status(500).json({ error: 'Failed to update AI model' });
   }
 });
